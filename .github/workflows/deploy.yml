@@ -1,0 +1,35 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "projects/475756125529/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+          service_account: "github-deployer@project-1af0f617-fd7b-4ca6-b43.iam.gserviceaccount.com"
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: capital-agent-service-git
+          region: us-central1
+          source: .
+          flags: --allow-unauthenticated
+          env_vars: |
+            GOOGLE_CLOUD_PROJECT=project-1af0f617-fd7b-4ca6-b43
+            GOOGLE_CLOUD_LOCATION=us-central1
+            GOOGLE_GENAI_USE_VERTEXAI=true
