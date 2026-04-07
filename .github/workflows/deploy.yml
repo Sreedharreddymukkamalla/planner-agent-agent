@@ -25,7 +25,7 @@ jobs:
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          service: capital-agent-service-git
+          service: planner-agent
           region: us-central1
           source: .
           flags: --allow-unauthenticated
