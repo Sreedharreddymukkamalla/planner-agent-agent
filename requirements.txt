@@ -1,3 +1,5 @@
 google-adk
 a2a-sdk
+python-dotenv
+typing-extensions
 # Add any other dependencies your agent needs
